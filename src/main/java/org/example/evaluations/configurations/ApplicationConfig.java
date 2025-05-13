@@ -1,6 +1,5 @@
 package org.example.evaluations.configurations;
 
-import org.example.evaluations.services.helpers.CompanyCurrencyHelperService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
