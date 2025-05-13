@@ -47,7 +47,7 @@ public class CompanyStockServiceTests {
     @Test
     public void testGetStockNews() {
         // Arrange
-        String symbol = "AAPL";
+        String symbol = "AAPL:NASDAQ";
         News news1 = new News();
         news1.setArticle_title("Title1");
         news1.setSource("Source1");
@@ -85,7 +85,7 @@ public class CompanyStockServiceTests {
     @Test
     public void testGetCompanyCashFlow() {
         // Arrange
-        String symbol = "AAPL";
+        String symbol = "AAPL:NASDAQ";
         CashFlow cashFlow1 = new CashFlow();
         cashFlow1.setQuarter(1L);
         cashFlow1.setFree_cash_flow(100000L);
