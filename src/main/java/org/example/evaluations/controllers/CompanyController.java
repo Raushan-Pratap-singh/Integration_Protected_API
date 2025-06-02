@@ -7,7 +7,6 @@ import org.example.evaluations.dtos.RealTimeNewsResult;
 import org.example.evaluations.models.CashFlow;
 import org.example.evaluations.models.News;
 import org.example.evaluations.services.IStockService;
-import org.example.evaluations.services.helpers.CompanyCurrencyHelperService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +33,6 @@ import org.springframework.web.bind.annotation.RestController;
  * Dependencies:
  * <ul>
  *   <li>{@link IStockService} - Service layer to fetch stock-related data.</li>
- *   <li>{@link CompanyCurrencyHelperService} - Helper service to format response objects.</li>
  * </ul>
  *
  * @author Raushan Singh
@@ -46,11 +44,8 @@ public class CompanyController {
 
     private final IStockService companyService;
 
-    private final CompanyCurrencyHelperService companyCurrencyHelperService;
-
-    public CompanyController(IStockService companyService, CompanyCurrencyHelperService companyCurrencyHelperService) {
+    public CompanyController(IStockService companyService) {
         this.companyService = companyService;
-        this.companyCurrencyHelperService = companyCurrencyHelperService;
     }
 
 
@@ -62,9 +57,9 @@ public class CompanyController {
      * or an empty response if no news is found.
      */
     @GetMapping("/stockNews")
-    public ResponseEntity<RealTimeNewsResult> getStockNews(@RequestParam(name = "symbol") String symbol) {
-        List<News> news = companyService.getStockNews(symbol);
-        return companyCurrencyHelperService.convertToRealTimeNewsResult(news);
+    public List<News> getStockNews(@RequestParam(name = "symbol") String symbol) {
+        return companyService.getStockNews(symbol);
+        //return companyCurrencyHelperService.convertToRealTimeNewsResult(news);
     }
 
     /**
@@ -75,13 +70,8 @@ public class CompanyController {
      * or a no-content response if data is unavailable.
      */
     @GetMapping("/cashFlow")
-    public ResponseEntity<RealTimeCashFlowResult> getCompanyCashFlow(@RequestParam(name = "symbol") String symbol) {
-        List<CashFlow> cashFlows = companyService.getCompanyCashFlow(symbol);
-        if(cashFlows == null || cashFlows.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        RealTimeCashFlowResult cashFlowResult = RealTimeCashFlowResult.of(cashFlows);
-        return ResponseEntity.ok(cashFlowResult);
+    public List<CashFlow> getCompanyCashFlow(@RequestParam(name = "symbol") String symbol) {
+        return companyService.getCompanyCashFlow(symbol);
     }
 }
 

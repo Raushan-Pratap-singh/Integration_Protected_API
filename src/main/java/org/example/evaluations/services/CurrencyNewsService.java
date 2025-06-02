@@ -58,7 +58,7 @@ public class CurrencyNewsService implements ICurrencyService {
     public List<News> getCurrencyNews(String fromCurrency, String toCurrency) {
         HttpEntity<String> httpEntity = apiHelperService.createHttpEntity();
         String url = apiHelperService.buildUrl(apiProperties.getCurrencyNews(), Map.of("from", fromCurrency, "to", toCurrency));
-        ResponseEntity<RealTimeNewsResult> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity, RealTimeNewsResult.class);
+        ResponseEntity<RealTimeNewsResult> response = restTemplate.exchange("https://real-time-finance-data.p.rapidapi.com/currency-news?from_symbol={currency1}&to_symbol={currency2}", HttpMethod.GET, httpEntity, RealTimeNewsResult.class, fromCurrency, toCurrency);
         if (response.getStatusCode().is2xxSuccessful()) {
             RealTimeNewsResult result = response.getBody();
             if (result != null) {

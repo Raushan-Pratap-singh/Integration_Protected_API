@@ -4,7 +4,6 @@ import java.util.List;
 import org.example.evaluations.dtos.RealTimeNewsResult;
 import org.example.evaluations.models.News;
 import org.example.evaluations.services.ICurrencyService;
-import org.example.evaluations.services.helpers.CompanyCurrencyHelperService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
  * Dependencies:
  * <ul>
  *   <li>{@link ICurrencyService} - Service layer to fetch currency-related news data.</li>
- *   <li>{@link CompanyCurrencyHelperService} - Helper service to format response objects.</li>
  * </ul>
  *
  * @author Raushan Singh
@@ -40,11 +38,8 @@ public class CurrencyController {
 
     private final ICurrencyService currencyService;
 
-    private final CompanyCurrencyHelperService companyCurrencyHelperService;
-
-    public CurrencyController(ICurrencyService currencyService, CompanyCurrencyHelperService companyCurrencyHelperService) {
+    public CurrencyController(ICurrencyService currencyService) {
         this.currencyService = currencyService;
-        this.companyCurrencyHelperService = companyCurrencyHelperService;
     }
 
 
@@ -57,8 +52,7 @@ public class CurrencyController {
      * or a no-content response if no data is available.
      */
     @GetMapping("/conversionNews")
-    public ResponseEntity<RealTimeNewsResult> getCurrencyNews(@RequestParam(name = "from_symbol") String from_symbol, @RequestParam(name = "to_symbol") String to_symbol) {
-        List<News> news = currencyService.getCurrencyNews(from_symbol, to_symbol);
-        return companyCurrencyHelperService.convertToRealTimeNewsResult(news);
+    public List<News> getCurrencyNews(@RequestParam(name = "from_symbol") String from_symbol, @RequestParam(name = "to_symbol") String to_symbol) {
+        return currencyService.getCurrencyNews(from_symbol, to_symbol);
     }
 }
