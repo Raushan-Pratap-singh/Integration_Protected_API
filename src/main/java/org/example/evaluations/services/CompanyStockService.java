@@ -62,7 +62,7 @@ public class CompanyStockService implements IStockService {
     public List<News> getStockNews(String symbol) {
         String url = apiHelperService.buildUrl(apiProperties.getStockNews(), Map.of("key", symbol));
         HttpEntity<String> httpEntity = apiHelperService.createHttpEntity();
-        ResponseEntity<RealTimeNewsResult> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity, RealTimeNewsResult.class);
+        ResponseEntity<RealTimeNewsResult> response = restTemplate.exchange("https://real-time-finance-data.p.rapidapi.com/stock-news?symbol={symbol}", HttpMethod.GET, httpEntity, RealTimeNewsResult.class, symbol);
         if (response.getStatusCode().is2xxSuccessful()) {
             RealTimeNewsResult realTimeNewsResult = response.getBody();
             if (realTimeNewsResult != null) {
@@ -82,7 +82,7 @@ public class CompanyStockService implements IStockService {
     public List<CashFlow> getCompanyCashFlow(String symbol) {
         String url = apiHelperService.buildUrl(apiProperties.getCompanyCashflow(), Map.of("key", symbol));
         HttpEntity<String> httpEntity = apiHelperService.createHttpEntity();
-        ResponseEntity<RealTimeCashFlowResult> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity, RealTimeCashFlowResult.class);
+        ResponseEntity<RealTimeCashFlowResult> response = restTemplate.exchange("https://real-time-finance-data.p.rapidapi.com/company-cash-flow?symbol={symbol}", HttpMethod.GET, httpEntity, RealTimeCashFlowResult.class, symbol);
         if (response.getStatusCode().is2xxSuccessful()) {
             RealTimeCashFlowResult realTimeCashFlowResult = response.getBody();
             if (realTimeCashFlowResult != null) {

@@ -1,11 +1,20 @@
-spring:
-  application:
-    name: Integration_Protected_API  # Common application name
-
-  server:
-    port: 8080  # default port, can be overridden by profiles
-
-logging:
-  level:
-    root: INFO
-    org.springframework.web: DEBUG  # Default logging level
+api:
+  stock-news:
+    query-params:
+      key: symbol
+      language: en
+    url: https://real-time-finance-data.p.rapidapi.com/stock-news
+  company-cashflow:
+    query-params:
+      key: symbol
+      language: en
+    url: https://real-time-finance-data.p.rapidapi.com/company-cash-flow
+  currency-news:
+    query-params:
+      from: from_symbol
+      to: to_symbol
+      language: en
+    url: https://real-time-finance-data.p.rapidapi.com/currency-news
+  headers:
+    X-RapidAPI-Key: 062c40283bmshf542cb9122404e1p1a18e2jsn19c9052df889
+    X-RapidAPI-Host: real-time-finance-data.p.rapidapi.com
